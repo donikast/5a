@@ -1,9 +1,14 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String personalName;
 	private String username;
 	private String password;
@@ -11,8 +16,12 @@ public class User {
 	public User() {}
 
 	public User(String personalName, String username, String password) {
-		super();
 		this.personalName = personalName;
+		this.username = username;
+		this.password = password;
+	}
+	
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
@@ -43,7 +52,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(username);
+		return Objects.hash(password, username);
 	}
 
 	@Override
@@ -55,7 +64,7 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(username, other.username);
+		return Objects.equals(password, other.password) && Objects.equals(username, other.username);
 	}
-	
+
 }
