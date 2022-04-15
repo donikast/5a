@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("loggedUser", loggedUser);
 			
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/ProfilePage.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/EditProfilePage.jsp");
 			rd.forward(request, response);
 		}
 		else {

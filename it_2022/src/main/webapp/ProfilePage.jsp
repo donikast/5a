@@ -5,14 +5,15 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Профилна страница</title>
-<link rel="stylesheet" href="css/styles.css">
-</head>
+<jsp:include page="shared/head.jsp"/>
 <body>
+<!--  
+<jsp:useBean id="loggedUser" class="models.User" scope="request" />
+<jsp:setProperty property="*" name="loggedUser"/>
+<jsp:getProperty property="personalName" name="loggedUser"/> -->
+
 <% User user = (User)request.getAttribute("loggedUser"); %>
-	<header></header>
+<jsp:include page="shared/header.jsp"/>
 	<div class="content">
 		<div>
 			<div class="profile-image-container">
@@ -87,6 +88,6 @@
 			</div>
 		</div>
 	</div>
-	<footer></footer>
+<jsp:include page="shared/footer.jsp"/>
 </body>
 </html>

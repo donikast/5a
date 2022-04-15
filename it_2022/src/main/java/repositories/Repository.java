@@ -38,4 +38,13 @@ public class Repository {
 		}
 		return null;
 	}
+	
+	public User getUserById(int id) {
+		for(User u:collection) {
+			if(u.getId()==id) {
+				return u;
+			}
+		}
+		return null;
+	}
 }
