@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -24,11 +25,21 @@ public class UserServlet extends HttpServlet {
 
  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		int id = Integer.parseInt(request.getParameter("id"));
+		String action = request.getParameter("action");
+		User loggedUser = collection.getUserById(id);
+		
+		request.setAttribute("loggedUser", loggedUser);
+		
+		if(action!=null && !action.isEmpty() && action.equals("edit")) {
+		RequestDispatcher rd = request.getRequestDispatcher("/EditProfilePage.jsp");
+		rd.forward(request, response);
+		} else {
+		RequestDispatcher rd = request.getRequestDispatcher("/ProfilePage.jsp");
+		rd.forward(request, response); 
+		}
 	}
 
- 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	 int id = Integer.parseInt(request.getParameter("id"));
 		User updatedUser = collection.getUserById(id);
@@ -38,8 +49,31 @@ public class UserServlet extends HttpServlet {
 		updatedUser.setDescription(request.getParameter("description"));
 		updatedUser.setEmail(request.getParameter("email"));
 		updatedUser.setPhone(request.getParameter("phone"));
-
+		updatedUser.getAddress().setCity("city");
+		updatedUser.getAddress().setStreet("street");
 		
+		for(int i=0; i<updatedUser.getProfSkill().size();i++) {
+			String skillName = request.getParameter("prof-skill-name"+i);
+			updatedUser.getProfSkill().get(i).setSkillName(skillName);
+			
+			int skillValue = Integer.parseInt(request.getParameter("prof-skill-value"+i));
+			updatedUser.getProfSkill().get(i).setSkillValue(skillValue);
+		}
+		
+		for(int i=0; i<updatedUser.getPersonalSkill().size();i++) {
+			String skillName = request.getParameter("personal-skill-name"+i);
+			updatedUser.getPersonalSkill().get(i).setSkillName(skillName);
+			
+			int skillValue = Integer.parseInt(request.getParameter("personal-skill-value"+i));
+			updatedUser.getPersonalSkill().get(i).setSkillValue(skillValue);
+		}
+		
+		response.sendRedirect("user?id="+updatedUser.getId());
+		
+		//request.setAttribute("loggedUser", updatedUser);
+		
+		//RequestDispatcher rd = request.getRequestDispatcher("/ProfilePage.jsp");
+		//rd.forward(request, response);
 	}
 
 }

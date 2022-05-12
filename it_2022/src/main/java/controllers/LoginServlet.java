@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.User;
 import repositories.Repository;
 
@@ -40,11 +41,18 @@ public class LoginServlet extends HttpServlet {
 			
 			User loggedUser = collection.getUserByUsername(username);
 			
-			request.setAttribute("loggedUser", loggedUser);
+			HttpSession oldSession = request.getSession(false);
+			{
+				if(oldSession!=null) {
+					oldSession.invalidate();
+				}
+			}
+
+			HttpSession newSession = request.getSession();
+			newSession.setAttribute("loggedUser",loggedUser);
 			
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/EditProfilePage.jsp");
-			rd.forward(request, response);
+			response.sendRedirect("user?id="+loggedUser.getId()+"&action=edit");
+	
 		}
 		else {
 			response.setCharacterEncoding("UTF-8");

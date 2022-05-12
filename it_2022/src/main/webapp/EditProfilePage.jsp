@@ -8,7 +8,7 @@
 <jsp:include page="shared/head.jsp"/>
 <body>
 
-<% User user = (User)request.getAttribute("loggedUser"); %>
+<% User user = (User)session.getAttribute("loggedUser"); %>
 <jsp:include page="shared/header.jsp"/>
 	<div class="content">
 	
